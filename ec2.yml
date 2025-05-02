@@ -1,0 +1,13 @@
+
+AWSTemplateFormatVersion: "2010-09-09"
+Resources:
+  MyEC2Instance:
+    Type: "AWS::EC2::Instance"
+    Properties:
+      InstanceType: "t2.micro"
+      ImageId: "ami-0f88e80871fd81e91"  # Replace with a valid AMI ID
+      KeyName: "MyKeyPair"  # Replace with your key pair name
+   
+      Tags:
+        - Key: "Name"
+          Value: "MyEC2Instance"
