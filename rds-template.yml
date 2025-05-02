@@ -34,8 +34,8 @@ Resources:
     Type: AWS::RDS::DBSubnetGroup
     Properties:
       DBSubnetGroupDescription: RDS subnet group
-      #SubnetIds:
-      #  - subnet-xxxxxxxx
+      SubnetIds:
+        - subnet-060179810eb3e4de4
       #  - subnet-yyyyyyyy  # Replace with real subnet IDs
 
   MyRDSInstance:
@@ -48,8 +48,8 @@ Resources:
       Engine: mysql
       AllocatedStorage: 20
       PubliclyAccessible: true
-    #  VPCSecurityGroups:
-     #   - sg-xxxxxxxx  # Replace with real security group ID
+      VPCSecurityGroups:
+        - sg-0659e50e2d7b506db  # Replace with real security group ID
       DBSubnetGroupName: !Ref MyDBSubnetGroup
       BackupRetentionPeriod: 7
       MultiAZ: false
