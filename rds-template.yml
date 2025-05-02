@@ -1,0 +1,60 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: Create an RDS MySQL instance
+
+Parameters:
+  DBName:
+    Description: Name of the initial database to create
+    Type: String
+    Default: mydb
+
+  DBUser:
+    Description: Master username
+    Type: String
+    Default: admin
+    NoEcho: true
+
+  DBPassword:
+    Description: Master user password
+    Type: String
+    NoEcho: true
+    MinLength: 8
+    MaxLength: 41
+
+  DBInstanceClass:
+    Description: RDS instance type
+    Type: String
+    Default: db.t3.micro
+    AllowedValues:
+      - db.t3.micro
+      - db.t3.small
+      - db.t3.medium
+
+Resources:
+  MyDBSubnetGroup:
+    Type: AWS::RDS::DBSubnetGroup
+    Properties:
+      DBSubnetGroupDescription: RDS subnet group
+      SubnetIds:
+        - subnet-xxxxxxxx
+        - subnet-yyyyyyyy  # Replace with real subnet IDs
+
+  MyRDSInstance:
+    Type: AWS::RDS::DBInstance
+    Properties:
+      DBName: !Ref DBName
+      MasterUsername: !Ref DBUser
+      MasterUserPassword: !Ref DBPassword
+      DBInstanceClass: !Ref DBInstanceClass
+      Engine: mysql
+      AllocatedStorage: 20
+      PubliclyAccessible: true
+      VPCSecurityGroups:
+        - sg-xxxxxxxx  # Replace with real security group ID
+      DBSubnetGroupName: !Ref MyDBSubnetGroup
+      BackupRetentionPeriod: 7
+      MultiAZ: false
+
+Outputs:
+  RDSInstanceEndpoint:
+    Description: RDS MySQL instance endpoint
+    Value: !GetAtt MyRDSInstance.Endpoint.Address
